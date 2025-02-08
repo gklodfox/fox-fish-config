@@ -18,4 +18,7 @@ and not set -q TMUX
   end
 end
 
+fish_add_path -p $HOME/.cargo/bin/
+fish_add_path -p $HOME/.local/share/nvim/mason/bin/
+
 fzf_configure_bindings
