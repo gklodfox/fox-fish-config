@@ -20,5 +20,6 @@ end
 
 fish_add_path -p $HOME/.cargo/bin/
 fish_add_path -p $HOME/.local/share/nvim/mason/bin/
+fish_add_path -p $HOME/.yarn/bin/
 
 fzf_configure_bindings
