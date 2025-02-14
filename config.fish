@@ -1,8 +1,8 @@
 # Start X at login
 if status is-login
-	if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
-		exec startx -- -keeptty
-	end
+  if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
+    exec startx -- -keeptty
+  end
 end
 
 # Start tmux
@@ -19,7 +19,9 @@ and not set -q TMUX
 end
 
 fish_add_path -p $HOME/.cargo/bin/
-fish_add_path -p $HOME/.local/share/nvim/mason/bin/
 fish_add_path -p $HOME/.yarn/bin/
+fish_add_path -p /usr/lib/node_modules/
+fish_add_path -p /usr/bin/
+fish_add_path -p $HOME/.local/share/nvim/mason/bin/
 
 fzf_configure_bindings
