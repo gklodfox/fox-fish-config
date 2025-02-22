@@ -15,6 +15,7 @@ set -gx VK_LOADER_LAYERS_ENABLE "*api_dump:*validation"
 set -gx XDG_CONFIG_HOME $HOME/.config
 set -gx AICHAT_PLATFORM openai
 set -gx PYENV_ROOT /home/fox/.pyenv
+set -gx SCRIPT_DIR /home/fox/Scripts
 
 # fish
 set -g fish_key_bindings fish_vi_key_bindings
