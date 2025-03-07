@@ -28,5 +28,6 @@ fish_add_path -p $HOME/.cargo/bin/
 #fish_add_path -p /usr/bin/
 fish_add_path -p $HOME/.local/share/gem/ruby/3.3.0/bin/
 fish_add_path -p $HOME/.local/share/nvim/mason/bin/
+fzf --fish | source
 
 #fzf_configure_bindings
