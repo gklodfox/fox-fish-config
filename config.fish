@@ -12,13 +12,13 @@ if status --is-interactive
   if not tmux has-session -t Main
     tmux new -s Main
   end
-  if not tmux has-session -t Config
-    tmux new -s Config
-  end
-  if not tmux has-session -t Code
-    tmux new -s Code
-  end
-  tmux attach -t Main
+  #if not tmux has-session -t Config
+  #  tmux new -s Config
+  #end
+  #if not tmux has-session -t Code
+  #  tmux new -s Code
+  #end
+  tmux
 end
 
 fish_add_path -p $HOME/.cargo/bin/

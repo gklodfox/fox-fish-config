@@ -1,8 +1,5 @@
 # Env variables
 # system
-set -gx TERM xterm-ghostty
-set -gx TERM_PROGRAM ghostty
-set -gx TERM_PROGRAM_VERSION 1.1.2-arch
 set -gx COLORTERM truecolor
 set -gx EDITOR nvim
 set -gx LANG en_US.UTF-8
