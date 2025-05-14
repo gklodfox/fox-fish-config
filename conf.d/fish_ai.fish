@@ -6,17 +6,38 @@ set -g supported_versions 3.9 3.10 3.11 3.12 3.13
 
 ##
 ## This section contains the keybindings for fish-ai. If you want to change the
-## default keybindings, edit the key binding escape sequences below according to
-## your needs. You can get the key binding escape sequence for a keyboard shortcut
-## using the command `fish_key_reader`.
+## default keybindings, use the environment variables:
 ##
-if test $fish_key_bindings = fish_vi_key_bindings
-    bind -M insert \cp _fish_ai_codify_or_explain
-    bind -M insert -k nul _fish_ai_autocomplete_or_fix
+##   - FISH_AI_KEYMAP_1 (defaults to Ctrl + P)
+##   - FISH_AI_KEYMAP_2 (defaults to Ctrl + Space)
+##
+## These should be set to the key binding escape sequence for a keyboard shortcut
+## you want to use + any flags. You can get the key binding escape sequence using
+## the command `fish_key_reader`.
+##
+if test -n "$FISH_AI_KEYMAP_1"
+    set -g keymap_1 "$FISH_AI_KEYMAP_1"
 else
-    bind \cP _fish_ai_codify_or_explain
-    bind -k nul _fish_ai_autocomplete_or_fix
+    set -g keymap_1 \cp
 end
+if test -n "$FISH_AI_KEYMAP_2"
+    set -g keymap_2 "$FISH_AI_KEYMAP_2"
+else
+    if type -q sw_vers
+        # macOS
+        set -g keymap_2 ctrl-space
+    else
+        # Linux
+        set -g keymap_2 -k nul
+    end
+end
+if test "$fish_key_bindings" = fish_vi_key_bindings
+    set -g bind_command bind -M insert
+else
+    set -g bind_command bind
+end
+$bind_command $keymap_1 _fish_ai_codify_or_explain
+$bind_command $keymap_2 _fish_ai_autocomplete_or_fix
 
 ##
 ## This section contains the plugin lifecycle hooks invoked by the fisher package
@@ -37,12 +58,13 @@ function _fish_ai_install --on-event fish_ai_install
     end
 
     echo "🍬 Installing dependencies. This may take a few seconds..."
-    ~/.fish-ai/bin/pip install -qq "$(get_installation_url)"
+    ~/.fish-ai/bin/pip -qq install "$(get_installation_url)"
     if test $status -ne 0
-        echo "💔 Installation failed. Check previous terminal output for details."
+        echo "💔 Installation from '$(get_installation_url)' failed. Check previous terminal output for details."
         return 2
     end
     python_version_check
+    notify_custom_keybindings
     symlink_truststore
     autoconfig_gh_models
     if ! test -f ~/.config/fish-ai.ini
@@ -70,7 +92,9 @@ function _fish_ai_update --on-event fish_ai_update
         return 2
     end
     python_version_check
+    notify_custom_keybindings
     symlink_truststore
+    warn_plaintext_api_keys
 end
 
 function _fish_ai_uninstall --on-event fish_ai_uninstall
@@ -138,6 +162,20 @@ function symlink_truststore --description "Use the bundle with CA certificates t
     end
 end
 
+function warn_plaintext_api_keys --description "Warn about plaintext API keys."
+    if grep -q "^api_key" ~/.config/fish-ai.ini
+        echo -n "🚨 One or more plaintext API keys are stored in "
+        set_color --bold red
+        echo -n "~/.config/fish-ai.ini"
+        set_color normal
+        echo -n ". Consider moving them to your keyring using "
+        set_color --italics blue
+        echo -n fish_ai_put_api_key
+        set_color normal
+        echo "."
+    end
+end
+
 function autoconfig_gh_models --description "Deploy configuration for GitHub Models."
     if test -f ~/.config/fish-ai.ini
         return
@@ -145,10 +183,10 @@ function autoconfig_gh_models --description "Deploy configuration for GitHub Mod
     if ! type -q gh
         return
     end
-    if test -z (gh auth token)
+    if test -z (gh auth token 2>/dev/null)
         return
     end
-    if test -z (gh ext ls | grep "gh models")
+    if test -z (gh ext ls | grep "gh models" 2>/dev/null)
         return
     end
     echo "[fish-ai]" >>~/.config/fish-ai.ini
@@ -172,4 +210,13 @@ function show_progess_indicator --description "Show a progress indicator."
     # Move the cursor to the end of the line and insert progress indicator
     tput hpa (math $COLUMNS - $rplen - 2)
     echo -n '⏳'
+end
+
+function notify_custom_keybindings --description "Print a message when custom keybindings are used."
+    if test -n "$FISH_AI_KEYMAP_1"
+        echo "🎹 Using custom keyboard shortcut '$FISH_AI_KEYMAP_1' instead of Ctrl+P."
+    end
+    if test -n "$FISH_AI_KEYMAP_2"
+        echo "🎹 Using custom keyboard shortcut '$FISH_AI_KEYMAP_2' instead of Ctrl+Space."
+    end
 end
