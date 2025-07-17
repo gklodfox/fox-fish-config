@@ -1,12 +1,5 @@
 set fish_greeting
 
-# Start sway at login
-if status is-login
-  if test -z $DISPLAY; and test (tty) = "/dev/tty1"
-    sway
-  end
-end
-
 status is-interactive; and begin
     set fish_tmux_autostart true
 end
