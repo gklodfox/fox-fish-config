@@ -3,8 +3,8 @@ set -Ux SPACEFISH_PROMPT_FIRST_PREFIX_SHOW true
 set -Ux SPACEFISH_TIME_SHOW true
 set -Ux SPACEFISH_DATE_SHOW true
 set -Ux VIRTUAL_ENV_DISABLE_PROMPT true
-set -Ux FZF_DEFAULT_OPTS "$FZF_DEFAULT_OPTS \
---border \
+set -Ux BROWSER qutebrowser
+set -Ux FZF_DEFAULT_OPTS "--border \
 --height 40% \
 --layout=reverse \
 --color=bg+:#1b2328 \
