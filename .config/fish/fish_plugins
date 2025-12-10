@@ -1,6 +1,7 @@
-matchai/spacefish
-jorgebucaran/replay.fish
-joseluisq/gitnow
-jorgebucaran/autopair.fish
 jorgebucaran/getopts.fish
-acomagu/fish-async-prompt
+jethrokuan/z
+jorgebucaran/autopair.fish
+joseluisq/gitnow@2.13.0
+patrickf1/fzf.fish
+nickeb96/puffer-fish
+realiserad/fish-ai
