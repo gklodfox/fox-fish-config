@@ -5,4 +5,5 @@ status is-interactive; and begin
     alias gp="git push"
     alias gaa="git add ."
     alias ls="exa"
+    alias cd="z"
 end

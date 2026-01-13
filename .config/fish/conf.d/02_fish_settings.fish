@@ -4,4 +4,5 @@ status is-interactive; and begin
     set -gx fish_tmux_fixterm_with_256colors tmux-256colors
     set -gx fish_tmux_unicode true
     set -gx fish_bind_mode insert
+    set -U autols_command exa -laB --git --group-directories-first
 end
