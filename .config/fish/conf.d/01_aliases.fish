@@ -4,6 +4,8 @@ status is-interactive; and begin
     alias gcm="git commit -m"
     alias gp="git push"
     alias gaa="git add ."
-    alias ls="exa"
+    alias ls="eza --classify=always --icons=always --show-symlinks --group-directories-first"
+    alias tree="eza -T"
     alias cd="z"
+    alias y="yes |"
 end

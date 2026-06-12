@@ -1,4 +1,7 @@
 #!/usr/bin/fish
 
-set -gx I3BLOCKS_CONTRIB_DIR /home/foxy/.config/i3/i3blocks-contrib
-set -gx BROWSER qutebrowser
+set -Ux I3BLOCKS_CONTRIB_DIR $HOME/.config/i3/i3blocks-contrib
+set -Ux BROWSER qutebrowser
+set -Ux XDG_CONFIG_DIR $HOME/.config
+set -Ux PICO_SDK_PATH /usr/share/pico-sdk
+set -Ux TERMINAL kitty
